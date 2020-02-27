@@ -1,0 +1,8 @@
+# CompletionService
+
+CompletionService实际上可以看做是Executor和BlockingQueue的结合体。
+
+CompletionService在接收到要执行的任务时，通过类似BlockingQueue的put和take获得任务执行的结果。
+
+CompletionService的一个实现是ExecutorCompletionService，ExecutorCompletionService把具体的计算任务交给Executor完成。
+
