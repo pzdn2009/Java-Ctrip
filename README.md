@@ -1,36 +1,30 @@
-# 序
+# Introduction
 
-关于书名
+Java 是门“复杂”的编程语言，复杂这两个字，代表的是人的反应、情感、积累，等等，而并非语言本身，语言本身不分男女、高低、深浅。说复杂，一般都是从个人出发。那么，一个人有多复杂，应该是很有趣的一件事情。
 
-很感谢在Ctrip能够有一次机会可以转型做Java，从此人生换了一条路，故而这就是一本感恩的书！
+## 约定
+
+### 目录结构
+
+* 通用
+  * WIP：表示WORK IN PROGRESS
+* 一般分析结构
+  * Introduction
+  * Usage
+  * Source Analysis
+  * Summary
+* 主题结构
+  * Questions
+  * Answers
+* 全貌结构
+  * Picture
+  * Image
+  * File
 
 
 
-要求
+## 关于
 
-* 每次提交都有完整地链接路径；
-* 结构：summary、image、practice、thinking
-* 定义文档的目录结构，为了快速地写文章
-  * 背景，参考外国网站
-  * 
-
-内容：
-
-* [版本](ban-ben/)
-
-## 目录
-
-* [编程](bian-cheng/)
-* [Spring](spring/)
-* [Maven](maven.md)
-* [部署](bu-shu/)
-* [IDEA](idea/)
-* [DT](dt/)
-* [快速工具](fasttools.md)
-* [MyBatis](mybatis/)
-* [第三方库集合](thirdlibraries/)
-* [Groovy](groovy.md)
-* [Netty](netty.md)
-* [dubbo](dubbo.md)
-* [JVM](jvm/)
+* 很感谢在Ctrip能够开启Java的小门，从此人生的路径有了一个大值斜率，复杂的故事，煮茶而谈的场景，就尽数包括在Ctrip这个词，致敬！
+* 从16年开始接触积累以来，是一个不错的开始
 
