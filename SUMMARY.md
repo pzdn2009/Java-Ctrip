@@ -9,7 +9,7 @@
     * [WIP 面向对象](bian-cheng/yu-yan-li-lun-pian/wip-mian-xiang-dui-xiang.md)
     * [WIP Happen Before](bian-cheng/yu-yan-li-lun-pian/happen-before.md)
     * [WIP ClassLoader](bian-cheng/yu-yan-li-lun-pian/lei-jia-zai-qi.md)
-    * [WIP Reflection](bian-cheng/yu-yan-li-lun-pian/wip-reflection.md)
+    * [Reflection](bian-cheng/yu-yan-li-lun-pian/wip-reflection.md)
     * [WIP ASM](bian-cheng/yu-yan-li-lun-pian/wip-asm.md)
     * [WIP Internal Class](bian-cheng/yu-yan-li-lun-pian/wip-internal-class.md)
   * [JDK Source Codes](bian-cheng/jdk-source-codes.md)
