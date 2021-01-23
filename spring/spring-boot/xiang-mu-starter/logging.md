@@ -1,10 +1,10 @@
-# Logging
+# WIP Integration-Logback
 
 ## Logging
 
 ## 基础篇
 
-![](../../.gitbook/assets/springboot_logging.png)
+![](../../../.gitbook/assets/springboot_logging.png)
 
 ### 1. 日志简介
 

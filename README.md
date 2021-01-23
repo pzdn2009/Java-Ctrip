@@ -8,6 +8,7 @@ Java 是门“复杂”的编程语言，复杂这两个字，代表的是人的
 
 * 通用
   * WIP：表示WORK IN PROGRESS
+  * ONG：表示持续进行中
 * 一般分析结构
   * Introduction
   * Usage
@@ -20,6 +21,8 @@ Java 是门“复杂”的编程语言，复杂这两个字，代表的是人的
   * Picture
   * Image
   * File
+* Usage
+  * How to 系列
 
 
 

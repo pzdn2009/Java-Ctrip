@@ -1,4 +1,4 @@
-# Bean的整体生命阶段
+# WIP Bean的整体生命阶段
 
 * class
 * bean定义
