@@ -1,8 +1,12 @@
-# WIP ApplicationRunner
+# ApplicationRunner
 
 Spring Boot 启动之后执行**初始化**工作。
 
-Usage
+* 容器启动成功后的最后一步回调；
+* 可以结合@Order来指定执行顺序；
+* 可以替代的方案：基于ApplicationEvents来触发。
+
+EG：
 
 ```java
 @Component
@@ -28,5 +32,5 @@ public class InitializeUnionConfig implements ApplicationRunner {
 }
 ```
 
-如果有多个，可以通过@Order注解来指定顺序。
+
 
