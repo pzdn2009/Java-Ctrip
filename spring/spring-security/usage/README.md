@@ -11,7 +11,9 @@
 * Barear Token
 * 手动
 
+{% embed url="https://github.com/cch0/spring-boot-pre-authentication" %}
 
+[https://insource.io/blog/articles/stateless-api-security-with-spring-boot-part-2.html](https://insource.io/blog/articles/stateless-api-security-with-spring-boot-part-2.html)
 
 springSecurity     每种认证方式都要写一大推类
 
