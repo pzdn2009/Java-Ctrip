@@ -15,7 +15,7 @@
 
 核心API：
 
-* `getX`：返回public的X，包括集成的
+* `getX`：返回public的X，包括继承的
 * `getDeclaredX`：返回所有修饰的X
 * `invoke`：调用方法
 * `getConstructors`：返回所有构造函数
@@ -114,6 +114,22 @@ private Method[] privateGetDeclaredMethods(boolean publicOnly) {
 | getField\(String name\) | 返回包含一个数组 Field 对象，表示的类或接口指定的可访问的**公共**字段 |
 | getDeclaredField\(String name\) | 返回包含一个数组 Field 对象，表示的类或接口指定的任意权限的所有字段 |
 
+
+
+```java
+    /**
+     * Identifies the set of all public members of a class or interface,
+     * including inherited members.
+     */
+    public static final int PUBLIC = 0;
+
+    /**
+     * Identifies the set of declared members of a class or interface.
+     * Inherited members are not included.
+     */
+    public static final int DECLARED = 1;
+```
+
 ### Class类如何理解？
 
 * 本质上是一个类，即类的类；
@@ -147,6 +163,12 @@ public Class<?>[] getDeclaredClasses()
 Class a = Class.forName("A"); 
 System.out.println(Modifier.isAbstract(a.getModifiers())); 
 ```
+
+### isAssignableFrom意义？
+
+* Class1.isAssignableFrom\(Class2\)
+* Class1 &gt;= Class2
+* "&gt;="：超类或接口。
 
 ## 4. 开源框架--Reflections框架能做什么？
 

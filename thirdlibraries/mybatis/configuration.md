@@ -1,13 +1,19 @@
 # Configuration
 
+## 1. Introduction
+
+`配置`包含了整个配置，主要以下几个方面
+
 * properties
 * settings
 * typeAliases
 * typeHandlers
+* objectFactory
 * plugins
+* environments
 * mappers 
 
-完整的XML配置結構：
+## 2. XML版 配置結構
 
 ```markup
 <?xml version="1.0" encoding="UTF-8" ?>  
@@ -50,31 +56,206 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 </configuration>
 ```
 
-Ref：[http://www.mybatis.org/mybatis-3/zh/configuration.html](http://www.mybatis.org/mybatis-3/zh/configuration.html)
+### 2.1 properties
 
-## 1. properties
+示例：
 
-配置屬性
+```markup
+<properties resource="org/mybatis/example/config.properties">
+  <property name="username" value="dev_user"/>
+  <property name="password" value="F2Fa3!33TYyg"/>
+</properties>
 
-## 2. settings
+
+<dataSource type="POOLED">
+  <property name="driver" value="${driver}"/>
+  <property name="url" value="${url}"/>
+  <property name="username" value="${username}"/>
+  <property name="password" value="${password}"/>
+</dataSource>
+```
+
+* 支持默认值：`${name:default}`，需要一个开关配合，和Spring的占位符类似
+* props：内部使用`Properties`存储
+
+源码：
+
+```java
+private void propertiesElement(XNode context) throws Exception {
+  if (context != null) {
+    //把name,value解析成为字典
+    Properties defaults = context.getChildrenAsProperties();
+    String resource = context.getStringAttribute("resource");
+    String url = context.getStringAttribute("url");
+    if (resource != null && url != null) {
+      throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference.  Please specify one or the other.");
+    }
+    //二选一读取
+    if (resource != null) {
+      defaults.putAll(Resources.getResourceAsProperties(resource));
+    } else if (url != null) {
+      defaults.putAll(Resources.getUrlAsProperties(url));
+    }
+    
+    Properties vars = configuration.getVariables();
+    if (vars != null) {
+      defaults.putAll(vars);
+    }
+    parser.setVariables(defaults);
+    //合并完了，存储在Variables中
+    configuration.setVariables(defaults);
+  }
+}
+```
+
+### 2.2 settings
 
 重要的全局設置
 
-## 3. typeAliases
+* 启用缓存
+* 启用懒加载
+* 使用生成主键
+* 自动映射行为选项
+* 自动映射发现未知列的反应
+* 默认的执行器
+* 超时时间
+* 命名自动映射
+* 默认的enum处理器
+
+源码：
+
+```java
+private void settingsElement(Properties props) {
+  configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(props.getProperty("autoMappingBehavior", "PARTIAL")));
+  configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(props.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
+  configuration.setCacheEnabled(booleanValueOf(props.getProperty("cacheEnabled"), true));
+  configuration.setProxyFactory((ProxyFactory) createInstance(props.getProperty("proxyFactory")));
+  configuration.setLazyLoadingEnabled(booleanValueOf(props.getProperty("lazyLoadingEnabled"), false));
+  configuration.setAggressiveLazyLoading(booleanValueOf(props.getProperty("aggressiveLazyLoading"), false));
+  configuration.setMultipleResultSetsEnabled(booleanValueOf(props.getProperty("multipleResultSetsEnabled"), true));
+  configuration.setUseColumnLabel(booleanValueOf(props.getProperty("useColumnLabel"), true));
+  configuration.setUseGeneratedKeys(booleanValueOf(props.getProperty("useGeneratedKeys"), false));
+  configuration.setDefaultExecutorType(ExecutorType.valueOf(props.getProperty("defaultExecutorType", "SIMPLE")));
+  configuration.setDefaultStatementTimeout(integerValueOf(props.getProperty("defaultStatementTimeout"), null));
+  configuration.setDefaultFetchSize(integerValueOf(props.getProperty("defaultFetchSize"), null));
+  configuration.setDefaultResultSetType(resolveResultSetType(props.getProperty("defaultResultSetType")));
+  configuration.setMapUnderscoreToCamelCase(booleanValueOf(props.getProperty("mapUnderscoreToCamelCase"), false));
+  configuration.setSafeRowBoundsEnabled(booleanValueOf(props.getProperty("safeRowBoundsEnabled"), false));
+  configuration.setLocalCacheScope(LocalCacheScope.valueOf(props.getProperty("localCacheScope", "SESSION")));
+  configuration.setJdbcTypeForNull(JdbcType.valueOf(props.getProperty("jdbcTypeForNull", "OTHER")));
+  configuration.setLazyLoadTriggerMethods(stringSetValueOf(props.getProperty("lazyLoadTriggerMethods"), "equals,clone,hashCode,toString"));
+  configuration.setSafeResultHandlerEnabled(booleanValueOf(props.getProperty("safeResultHandlerEnabled"), true));
+  configuration.setDefaultScriptingLanguage(resolveClass(props.getProperty("defaultScriptingLanguage")));
+  configuration.setDefaultEnumTypeHandler(resolveClass(props.getProperty("defaultEnumTypeHandler")));
+  configuration.setCallSettersOnNulls(booleanValueOf(props.getProperty("callSettersOnNulls"), false));
+  configuration.setUseActualParamName(booleanValueOf(props.getProperty("useActualParamName"), true));
+  configuration.setReturnInstanceForEmptyRow(booleanValueOf(props.getProperty("returnInstanceForEmptyRow"), false));
+  configuration.setLogPrefix(props.getProperty("logPrefix"));
+  configuration.setConfigurationFactory(resolveClass(props.getProperty("configurationFactory")));
+  configuration.setShrinkWhitespacesInSql(booleanValueOf(props.getProperty("shrinkWhitespacesInSql"), false));
+  configuration.setDefaultSqlProviderType(resolveClass(props.getProperty("defaultSqlProviderType")));
+}
+```
+
+### 2.3 typeAliases
 
 類型別名，為了簡化
 
-## 4. typeHandlers
+* 值类型：`（_int, int)`
+* 引用类型：`（int, Integer）`
+* 可以使用注解：`@Alias`
 
-類型處理器，即類型轉換器。
+```markup
+<typeAliases>
+  <typeAlias alias="Author" type="domain.blog.Author"/>
+  <typeAlias alias="Blog" type="domain.blog.Blog"/>
+  <typeAlias alias="Comment" type="domain.blog.Comment"/>
+  <typeAlias alias="Post" type="domain.blog.Post"/>
+  <typeAlias alias="Section" type="domain.blog.Section"/>
+  <typeAlias alias="Tag" type="domain.blog.Tag"/>
+</typeAliases>
+
+//
+<typeAliases>
+  <package name="domain.blog"/>
+</typeAliases>
+```
+
+源码：
+
+```java
+private void typeAliasesElement(XNode parent) {
+  if (parent != null) {
+    for (XNode child : parent.getChildren()) {
+      //如果有package，则在指定的包下搜索
+      if ("package".equals(child.getName())) {
+        String typeAliasPackage = child.getStringAttribute("name");
+        configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage);
+      } else {
+        //一个个地读取
+        String alias = child.getStringAttribute("alias");
+        String type = child.getStringAttribute("type");
+        try {
+          Class<?> clazz = Resources.classForName(type);
+          if (alias == null) {
+            typeAliasRegistry.registerAlias(clazz);
+          } else {
+            typeAliasRegistry.registerAlias(alias, clazz);
+          }
+        } catch (ClassNotFoundException e) {
+          throw new BuilderException("Error registering typeAlias for '" + alias + "'. Cause: " + e, e);
+        }
+      }
+    }
+  }
+}
+```
+
+### 2.4 typeHandlers
+
+類型處理器，即類型轉換器。实现Java--JDBC的双向转换。
 
 Eg:EnumTypeHandler\(存储枚举的名称\),EnumOrdinalTypeHandler\(存储枚举的索引\)
 
-## 5. plugins
+
+
+源码:
+
+```java
+private void typeHandlerElement(XNode parent) {
+  if (parent != null) {
+    for (XNode child : parent.getChildren()) {
+      if ("package".equals(child.getName())) {
+        String typeHandlerPackage = child.getStringAttribute("name");
+        typeHandlerRegistry.register(typeHandlerPackage);
+      } else {
+        //映射，注册
+        String javaTypeName = child.getStringAttribute("javaType");
+        String jdbcTypeName = child.getStringAttribute("jdbcType");
+        String handlerTypeName = child.getStringAttribute("handler");
+        Class<?> javaTypeClass = resolveClass(javaTypeName);
+        JdbcType jdbcType = resolveJdbcType(jdbcTypeName);
+        Class<?> typeHandlerClass = resolveClass(handlerTypeName);
+        if (javaTypeClass != null) {
+          if (jdbcType == null) {
+            typeHandlerRegistry.register(javaTypeClass, typeHandlerClass);
+          } else {
+            typeHandlerRegistry.register(javaTypeClass, jdbcType, typeHandlerClass);
+          }
+        } else {
+          typeHandlerRegistry.register(typeHandlerClass);
+        }
+      }
+    }
+  }
+}
+```
+
+### 2.5 plugins
 
 MyBatis允许你在已映射的语句执行过程中的某一点进行拦截调用。
 
-## 6. mappers
+### 2.6 mappers
 
 ```markup
 <!-- 使用映射器接口实现类的完全限定类名 -->
@@ -83,11 +264,5 @@ MyBatis允许你在已映射的语句执行过程中的某一点进行拦截调�
   <mapper class="org.mybatis.builder.BlogMapper"/>
   <mapper class="org.mybatis.builder.PostMapper"/>
 </mappers>
-```
-
-```text
-mybatis:
-  type-aliases-package: com.wingontravel.moto.motorest.domain.entity
-  mapper-locations: classpath:mapper/*.xml
 ```
 

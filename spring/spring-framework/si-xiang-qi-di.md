@@ -9,7 +9,9 @@ Spring 是一个优秀的框架，集合了世界上很多人的聪明才智，�
 * doXXX：XXX真正干活得地方
 * registry：注册表，对集合的另一个描述，更具象化；
 * ApplicationContext是一层操作壳，其内部有一个beanFactory；
-* * Support：？
+* BPP：**Bean**PostProcessor，对Bean的钩子
+* BFPP：**BeanFactory**PostProcessor，在容器初始化阶段对，BeanFactory的钩子。
+* Support：？
 * 包的分层规范？
 * 运用到大量的设计模式：工厂，单例，代理等；
 * 面向Bean编程
