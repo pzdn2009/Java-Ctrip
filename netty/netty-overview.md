@@ -8,7 +8,7 @@
 
 ## Architecture
 
-![Figure 1 Netty Architecture](../.gitbook/assets/image%20%283%29.png)
+![Figure 1 Netty Architecture](../.gitbook/assets/image%20%287%29.png)
 
 ### Features
 
@@ -54,6 +54,8 @@ Official Doc: [https://netty.io/](https://netty.io/)
 
 Github: [https://github.com/netty/netty](https://github.com/netty/netty) 
 
+Blog: [https://juejin.cn/post/6844903704668160008](https://juejin.cn/post/6844903704668160008)
+
 ## Core Concepts
 
 ### Tables
@@ -83,6 +85,14 @@ Tags
 |  |  |  |
 
 ### Nature Language
+
+> 一个Application，包括Client和Server。
+>
+> Client发起连接，Server绑定本地端口，接收连接。
+>
+> 当连接成功时，进行Read、Write操作，接收和发送数据。
+>
+> 收到数据之后，进行业务逻辑处理，并响应。
 
 
 
