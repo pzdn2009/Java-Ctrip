@@ -242,6 +242,7 @@
     * [Bootstrap](netty/netty-source-code/bootstrap.md)
     * [Channel](netty/netty-source-code/channel.md)
     * [ChanelHandler](netty/netty-source-code/chanelhandler.md)
+    * [ChannelHandlerContext](netty/netty-source-code/channelhandlercontext.md)
     * [ChannelPipeline](netty/netty-source-code/channelpipeline.md)
     * [ByteBuf](netty/netty-source-code/bytebuf.md)
   * [Netty External Knowledge](netty/netty-external-knowledge/README.md)

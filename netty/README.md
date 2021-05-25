@@ -28,7 +28,7 @@
 
 * [ ] ByteBuf
 * [ ] Channel
-* [ ] Handler
+* [x] Handler
 * [ ] Context
 * [ ] Project Directories
 
