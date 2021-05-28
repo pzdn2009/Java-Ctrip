@@ -8,7 +8,7 @@
 
 ## Architecture
 
-![Figure 1 Netty Architecture](../.gitbook/assets/image%20%288%29.png)
+![Figure 1 Netty Architecture](../.gitbook/assets/image%20%2811%29.png)
 
 ### Features
 
