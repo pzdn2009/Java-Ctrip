@@ -24,12 +24,12 @@
 线程安全的类、不变性条件、后验条件、先验条件、实例封闭、监视器模式、状态变量、Put-If-Absent、客户端加锁、组合、闭锁、信号量、互斥体、
 
 * [CopyOnWriteArrayList](copyonwritearraylist.md)
-* [Runnable](runnable.md)
+* [Runnable](thread-chapter/runnable.md)
 * [ConcurrentHashMap](concurrenthashmap.md)
 * [BlockingQueue](blockingqueue.md)
-* [Thread](thread.md)
+* [Thread](thread-chapter/thread.md)
 * [CountDownLatch](countdownlatch.md)
-* [Callable](callable.md)
+* [Callable](thread-chapter/callable.md)
 * [FutureTask](futuretask.md)
 * static
 
@@ -37,8 +37,8 @@
 
 Executor框架、线程池、任务、工作队列、工作线程、生命周期、延迟任务、周期任务、可取消的、中断、
 
-* [ExecutorService\(Executors\)](executorservice.md)
-* [ThreadPoolExecutor](threadpoolexecutor.md)
+* [ExecutorService\(Executors\)](threadpool/executorservice.md)
+* [ThreadPoolExecutor]()
 * [CompletionService](completionservice.md)
 
 ## 5. 显示锁

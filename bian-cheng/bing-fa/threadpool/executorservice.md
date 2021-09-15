@@ -1,8 +1,8 @@
-# ExecutorService
+# ExecutorService Overview
 
 ## 1. 体系
 
-![](https://images2015.cnblogs.com/blog/776259/201604/776259-20160426201537486-1323529733.png)
+![](../../../.gitbook/assets/image%20%2822%29.png)
 
 * **Executor**：一个接口，其定义了一个接收Runnable对象的方法executor，其方法签名为executor\(Runnable command\),
 * **ExecutorService**：是一个比Executor使用更广泛的子类接口，其提供了**生命周期管理**的方法，以及可跟踪一个或多个异步任务执行状况返回Future的方法
@@ -125,15 +125,33 @@ public class HeartBeat {
 }
 ```
 
-## 4. ExecutorService 提供 生命周期
+### 3.5 ALI规范建议
 
-ExecutorService提供了管理Eecutor生命周期的方法，ExecutorService的生命周期包括了：**运行、关闭和终止**三种状态。
+【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。
+
+线程池有两个线程数的设置，一个为**核心池线程数**，一个为**最大线程数**。
+
+在创建了线程池后，默认情况下，线程池中并没有任何线程，等到有任务来才创建线程去执行任务，除非调用了prestartAllCoreThreads\(\)或者prestartCoreThread\(\)方法。
+
+当创建的线程数等于 corePoolSize 时，会加入设置的阻塞队列。当队列满时，会创建线程执行任务直到线程池中的数量等于maximumPoolSize。
+
+说明：Executors 各个方法的弊端：
+
+1）newFixedThreadPool 和 newSingleThreadExecutor: 主要问题是堆积的**请求处理队列**可能会耗费非常大的内存，甚至 OOM\(Out Of Memory\)。
+
+2）newCachedThreadPool 和 newScheduledThreadPool: 主要问题是线程数最大数是 Integer.MAX\_VALUE，可能会**创建数量非常多的线程**，甚至 OOM。
+
+## 4. ExecutorService 
+
+### 4.1 生命周期管理
+
+ExecutorService提供了管理Executor生命周期的方法，ExecutorService的生命周期包括了：**运行、关闭和终止**三种状态。
 
 1. ExecutorService在初始化创建时处于运行状态。
-2. shutdown方法等待提交的任务执行完成并不再接受新任务，在完成全部提交的任务后关闭
-3. shutdownNow方法将强制终止所有运行中的任务并不再允许提交新任务
+2. `shutdown`方法等待提交的任务执行完成并不再接受新任务，在完成全部提交的任务后关闭
+3. `shutdownNow`方法将强制终止所有运行中的任务并不再允许提交新任务
 
-## 5. ExecutorService提交任务
+### 4.2  提交任务
 
 ```java
 <T> Future<T> submit(Callable<T> task);
@@ -146,7 +164,7 @@ Future<?> submit(Runnable task);
         throws InterruptedException;
 ```
 
-eg:
+Eg: 
 
 ```java
 public class CallableAndFuture {
