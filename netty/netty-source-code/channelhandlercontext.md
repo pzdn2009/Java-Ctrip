@@ -258,11 +258,54 @@ final class ChannelHandlerMask {
 
 ```
 
-##  AbstractChannelHandlerContext
+##  HeaderContext
 
-```text
-AbstractChannelHandlerContext
+```java
+//
+final class HeadContext extends AbstractChannelHandlerContext
+            implements ChannelOutboundHandler, ChannelInboundHandler {
+
+        private final Unsafe unsafe;
+
+        HeadContext(DefaultChannelPipeline pipeline) {
+            super(pipeline, null, HEAD_NAME, HeadContext.class);
+            unsafe = pipeline.channel().unsafe();
+            setAddComplete();
+        }
+        
+final boolean setAddComplete() {
+        for (;;) {
+            int oldState = handlerState;
+            if (oldState == REMOVE_COMPLETE) {
+                return false;
+            }
+            // Ensure we never update when the handlerState is REMOVE_COMPLETE already.
+            // oldState is usually ADD_PENDING but can also be REMOVE_COMPLETE when an EventExecutor is used that is not
+            // exposing ordering guarantees.
+            if (HANDLER_STATE_UPDATER.compareAndSet(this, oldState, ADD_COMPLETE)) {
+                return true;
+            }
+        }
+    }
+
+        @Override
+        public void read(ChannelHandlerContext ctx) {
+            unsafe.beginRead();
+        }
+
+        @Override
+        public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+            unsafe.write(msg, promise);
+        }
+
+        @Override
+        public void flush(ChannelHandlerContext ctx) {
+            unsafe.flush();
+        }
 ```
 
- 
+* Unsafe来自Channel
+* 空循环，执行CAS
+
+
 

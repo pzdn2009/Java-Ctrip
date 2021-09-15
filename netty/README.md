@@ -48,11 +48,10 @@
 3. Server端配置模式
 4. Client配置模板
 5. SO\_BACKLOG参数与三次握手
-6. ChannelInBound
-7. ByteBuf与工具类
-8. Discard
-9. Uptime
-10. IdleStateHandler
+6. ByteBuf与工具类
+7. Discard
+8. Uptime
+9. IdleStateHandler
 
 {% embed url="https://www.jianshu.com/p/03bb8a945b37" %}
 
