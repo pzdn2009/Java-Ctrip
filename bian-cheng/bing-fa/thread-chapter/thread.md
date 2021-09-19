@@ -1,12 +1,32 @@
 # Thread
 
-Ref:[http://www.importnew.com/21089.html](http://www.importnew.com/21089.html)
+## 线程中断
 
-![](http://incdn1.b0.upaiyun.com/2016/08/b4f5df769c96fb6ca2f54fae64ae510f.png)
+外部对目标线程发起一个协作式中断信号，目标线程可以处理这个信号，也可以忽略，当读取这个信号的时候，会清除中断标记。
 
-![](http://incdn1.b0.upaiyun.com/2016/08/665f644e43731ff9db3d341da5c827e1.png)
+```java
+//1. 发送中断请求信号
+t.interrupt();
 
-PS: 1. 调用join\(\)和sleep\(\)方法，sleep\(\)时间结束或被打断，join\(\)中断,IO完成都会回到Runnable状态，等待JVM的调度。 2. 调用wait\(\)，使该线程处于等待池\(wait blocked pool\),直到notify\(\)/notifyAll\(\)，线程被唤醒被放到锁定池\(lock blocked pool \)，释放同步锁使线程回到可运行状态（Runnable） 3. 对Running状态的线程加同步锁\(Synchronized\)使其进入\(lock blocked pool \),同步锁被释放进入可运行状态\(Runnable\)。
+//2. 获取中断信号并清除
+t.isInterrupted();
+
+//3. 处理中断异常
+InterruptedException
+
+if (Thread.interrupted())  // Clears interrupted status!
+    throw new InterruptedException();
+```
+
+
+
+PS: 
+
+1. 调用join\(\)和sleep\(\)方法，sleep\(\)时间结束或被打断，join\(\)中断,IO完成都会回到Runnable状态，等待JVM的调度。 
+
+2. 调用wait\(\)，使该线程处于等待池\(wait blocked pool\),直到notify\(\)/notifyAll\(\)，线程被唤醒被放到锁定池\(lock blocked pool \)，释放同步锁使线程回到可运行状态（Runnable） 
+
+3. 对Running状态的线程加同步锁\(Synchronized\)使其进入\(lock blocked pool \),同步锁被释放进入可运行状态\(Runnable\)。
 
 ## 每个对象都有的方法
 
@@ -83,5 +103,4 @@ synchronized, wait, notify结合:典型场景生产者消费者问题
 4. 捕获线程异常：thread.setUncaughtExceptionHandler
 5. Thread.yield\(\) //当前线程可转让cpu控制权，让别的就绪状态线程运行（切换），例如for迭代时可以使用
 6. Thread.join\(\) //等待该线程终止
-7. Thread.interrupt\(\) //通知线程应该中断了
 

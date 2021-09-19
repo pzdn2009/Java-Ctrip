@@ -17,7 +17,7 @@
 5. **线程启动**的happen-before原则：
    1. 同一个线程的start方法happen-before此线程的其它方法。
    2. 线程的开始
-6. **线程中断**的happen-before原则：
+6. **线程中断**的happen-before原则**\*\***：
    1. 对线程`interrupt`方法的调用happen-before被中断线程的检测到中断发送的代码。
 7. **线程终结**的happen-before原则：
    1. 线程中的所有操作都happen-before线程的终止检测。
