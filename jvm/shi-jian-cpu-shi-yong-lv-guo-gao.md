@@ -6,6 +6,7 @@
 * 使用top命令获取占用CPU最高的线程
 * 将线程ID转为16进制
 * 在jstack中搜索对应的线程ID
+* 用jstack进行thread dump
 * 查看并分析代码
 
 ```text
@@ -23,6 +24,10 @@ jstack -l pid >> /temp/pid.dump
 //3. view code
 
 ```
+
+## TODO
+
+做一个脚本
 
 
 
